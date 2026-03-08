@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-  "dev": "vite",
-  "build": "vue-tsc && vite build",
-  "preview": "vite preview",
-  "deploy": "npm run build && npx gh-pages -d dist"
-},
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && npx gh-pages -d dist"
+  },
   "dependencies": {
     "vue": "^3.4.0",
     "vue-router": "^4.3.0"

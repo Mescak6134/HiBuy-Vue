@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  base: '/HiBuy-Vue/',   // ← exakt der Repository-Name, Groß/Kleinschreibung beachten!
+  base: '/',   // ← Geändert!
   plugins: [vue()],
   resolve: {
     alias: {
