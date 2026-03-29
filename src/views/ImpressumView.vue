@@ -719,4 +719,19 @@ const impressumData = {
         grid-template-columns: 1fr;
     }
 }
+@media (max-width: 480px) {
+    .imp-block {
+        padding: var(--space-3);
+    }
+    .imp-hero h1 {
+        font-size: 1.8rem;
+    }
+    .cookie-table {
+        font-size: 0.7rem;
+    }
+    .cookie-table th,
+    .cookie-table td {
+        padding: 6px 8px;
+    }
+}
 </style>

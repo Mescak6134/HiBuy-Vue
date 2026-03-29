@@ -206,4 +206,10 @@ const closeMenu  = () => { menuOpen.value = false }
   .hamburger { display: flex; }
   .mobile-menu { display: block; }
 }
+@media (max-width: 360px) {
+  .navbar__logo-text { font-size: 1.1rem; }
+  .navbar__logo-badge { font-size: 0.58rem; padding: 2px 5px; }
+  .theme-toggle { width: 32px; height: 32px; }
+  .hamburger { width: 32px; height: 32px; }
+}
 </style>

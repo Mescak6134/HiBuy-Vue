@@ -344,4 +344,18 @@ const stats = [
         font-size: 0.7rem;
     }
 }
+@media (max-width: 360px) {
+    .hero__headline {
+        font-size: 1.8rem;
+    }
+    .hero__description {
+        font-size: 0.9rem;
+    }
+    .hero__stat-value {
+        font-size: 1.2rem;
+    }
+    .hero__stat-label {
+        font-size: 0.72rem;
+    }
+}
 </style>

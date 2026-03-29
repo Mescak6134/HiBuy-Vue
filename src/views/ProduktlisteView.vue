@@ -205,6 +205,7 @@ const suchergebnisse = computed(() => {
                     type="text"
                     placeholder="Produkt suchen…"
                     autocomplete="off"
+                    @keydown.esc="suchbegriff = ''"
                 />
                 <button v-if="suchbegriff" class="suche-clear" @click="suchbegriff = ''" aria-label="Suche löschen">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -647,5 +648,25 @@ const suchergebnisse = computed(() => {
 }
 .keine-ergebnisse strong {
     color: var(--color-text);
+}
+
+@media (max-width: 480px) {
+    .such-kategorie-badge {
+        display: none;
+    }
+    .suche-input {
+        font-size: 0.85rem;
+    }
+    .such-item {
+        padding: 9px 12px;
+    }
+}
+@media (max-width: 360px) {
+    .produkte-hero h1 {
+        font-size: 1.7rem;
+    }
+    .hinweis p {
+        font-size: 0.8rem;
+    }
 }
 </style>
