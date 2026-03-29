@@ -7,7 +7,6 @@ const impressumData = {
     city: "73728 Esslingen am Neckar",
     country: "Deutschland",
     phone: "+49 171 90 12 134",
-    phoneTel: "+4917190121234",
     email: "hibuy@gmx.de",
     taxNumber: "59092/65319",
     euDisputeUrl: "https://ec.europa.eu/consumers/odr/",
@@ -150,7 +149,7 @@ const impressumData = {
                                 <dt>Telefon</dt>
                                 <dd>
                                     <a
-                                        :href="`tel:${impressumData.phoneTel}`"
+                                        :href="`tel:${impressumData.phone.replace(/\s/g, '')}`"
                                         >{{ impressumData.phone }}</a
                                     >
                                 </dd>

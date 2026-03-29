@@ -6,7 +6,6 @@
 
 const contactInfo = {
     phone: "+49 171 90 12 134",
-    phoneTel: "+4917190121234",
     email: "hibuy@gmx.de",
     address: "Neckarstraße 27, 73728 Esslingen am Neckar",
     mapsUrl:
@@ -28,7 +27,7 @@ const contactInfo = {
 
             <div class="kontakt__cards">
                 <!-- Telefon -->
-                <a :href="`tel:${contactInfo.phoneTel}`" class="kontakt-card">
+                <a :href="`tel:${contactInfo.phone.replace(/\s/g, '')}`" class="kontakt-card">
                     <div class="kontakt-card__icon">
                         <svg
                             width="24"

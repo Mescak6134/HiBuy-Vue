@@ -11,6 +11,7 @@
  */
 import HeroSection from '@/components/HeroSection.vue'
 import AngebotSection from '@/components/AngebotSection.vue'
+import FaqSection from '@/components/FaqSection.vue'
 import KontaktSection from '@/components/KontaktSection.vue'
 </script>
 
@@ -18,6 +19,7 @@ import KontaktSection from '@/components/KontaktSection.vue'
   <div>
     <HeroSection />
     <AngebotSection />
+    <FaqSection />
     <KontaktSection />
   </div>
 </template>

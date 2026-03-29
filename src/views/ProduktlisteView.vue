@@ -9,6 +9,8 @@
  * - Neu-Badge: neu: true setzen
  */
 
+import { ref, computed } from 'vue'
+
 interface Produkt {
     name: string;
     beschreibung?: string;
@@ -151,6 +153,19 @@ const spalten: Spalte[] = [
         ],
     },
 ];
+
+// ── Suche ─────────────────────────────────────────────────────
+const suchbegriff = ref('')
+
+const suchergebnisse = computed(() => {
+    const term = suchbegriff.value.trim().toLowerCase()
+    if (!term) return []
+    return spalten.flatMap(spalte =>
+        spalte.produkte
+            .filter(p => p.name.toLowerCase().includes(term))
+            .map(p => ({ ...p, kategorie: spalte.titel, colorVar: spalte.colorVar }))
+    )
+})
 </script>
 
 <template>
@@ -178,7 +193,60 @@ const spalten: Spalte[] = [
                 <p>Alle Artikel die in unseren Automaten erhältlich sind.</p>
             </div>
 
-            <div class="spalten-grid">
+            <!-- Suchfeld -->
+            <div class="suche-wrap">
+                <svg class="suche-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input
+                    v-model="suchbegriff"
+                    class="suche-input"
+                    type="text"
+                    placeholder="Produkt suchen…"
+                    autocomplete="off"
+                />
+                <button v-if="suchbegriff" class="suche-clear" @click="suchbegriff = ''" aria-label="Suche löschen">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Suchergebnisse -->
+            <template v-if="suchbegriff.trim()">
+                <div v-if="suchergebnisse.length" class="such-liste">
+                    <div
+                        v-for="produkt in suchergebnisse"
+                        :key="produkt.name"
+                        class="produkt-item"
+                        :class="[`spalte--${produkt.colorVar}`, { 'produkt-item--unavailable': produkt.verfuegbar === false }]"
+                    >
+                        <div class="produkt-item__left">
+                            <div class="produkt-item__dot" />
+                            <div class="produkt-item__info">
+                                <span class="produkt-item__name">{{ produkt.name }}</span>
+                                <span v-if="produkt.beschreibung" class="produkt-item__desc">{{ produkt.beschreibung }}</span>
+                                <span v-if="produkt.verfuegbar === false" class="produkt-item__unavail">Derzeit nicht verfügbar</span>
+                            </div>
+                        </div>
+                        <div class="produkt-item__right">
+                            <span class="such-kategorie-badge" :class="`such-kategorie-badge--${produkt.colorVar}`">{{ produkt.kategorie }}</span>
+                            <span v-if="produkt.neu" class="badge badge--neu">Neu</span>
+                            <span v-if="produkt.preis" class="produkt-item__preis">{{ produkt.preis }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="keine-ergebnisse">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <p>Kein Produkt gefunden für <strong>„{{ suchbegriff }}"</strong></p>
+                </div>
+            </template>
+
+            <!-- Normale Tabellenansicht -->
+            <div v-else class="spalten-grid">
                 <div
                     v-for="spalte in spalten"
                     :key="spalte.titel"
@@ -480,5 +548,104 @@ const spalten: Spalte[] = [
     .spalten-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ── Suche ────────────────────────────────────────────────── */
+.suche-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-5);
+}
+.suche-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+.suche-input {
+    width: 100%;
+    padding: 10px 40px 10px 40px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.suche-input::placeholder {
+    color: var(--color-text-muted);
+}
+.suche-input:focus {
+    border-color: var(--color-text-muted);
+    box-shadow: 0 0 0 3px rgba(28, 26, 20, 0.07);
+}
+.suche-clear {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--color-tag);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: background var(--transition), color var(--transition);
+}
+.suche-clear:hover {
+    background: var(--color-border);
+    color: var(--color-text);
+}
+
+/* ── Suchergebnisse ───────────────────────────────────────── */
+.such-liste {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-surface);
+    margin-bottom: var(--space-4);
+}
+.such-liste .produkt-item {
+    border-bottom: 1px solid var(--color-border);
+}
+.such-liste .produkt-item:last-child {
+    border-bottom: none;
+}
+
+.such-kategorie-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 2px 9px;
+    border-radius: var(--radius-full);
+}
+.such-kategorie-badge--blue {
+    background: var(--color-blue-light);
+    color: var(--color-blue);
+}
+.such-kategorie-badge--amber {
+    background: var(--color-amber-light);
+    color: var(--color-amber);
+}
+
+.keine-ergebnisse {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-8) 0;
+    color: var(--color-text-muted);
+    text-align: center;
+}
+.keine-ergebnisse p {
+    font-size: 0.9rem;
+}
+.keine-ergebnisse strong {
+    color: var(--color-text);
 }
 </style>
