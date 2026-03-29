@@ -9,17 +9,15 @@
  * 2. Hier importieren: import MeineSektion from '@/components/MeineSektion.vue'
  * 3. Im Template einbinden: <MeineSektion />
  */
-import HeroSection from '@/components/HeroSection.vue'
-import AngebotSection from '@/components/AngebotSection.vue'
-import FaqSection from '@/components/FaqSection.vue'
-import KontaktSection from '@/components/KontaktSection.vue'
+import HeroSection from "@/components/HeroSection.vue";
+import AngebotSection from "@/components/AngebotSection.vue";
+import KontaktSection from "@/components/KontaktSection.vue";
 </script>
 
 <template>
-  <div>
-    <HeroSection />
-    <AngebotSection />
-    <FaqSection />
-    <KontaktSection />
-  </div>
+    <div>
+        <HeroSection />
+        <AngebotSection />
+        <KontaktSection />
+    </div>
 </template>
